@@ -1,0 +1,32 @@
+# env
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+
+# Local data
+backend/photo_cache/
+backend/ig_cookies.json
+
+# Claude
+.claude/
