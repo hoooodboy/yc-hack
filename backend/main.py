@@ -722,16 +722,17 @@ async def get_matches(
         "age_range": age_range,
     }
 
-    if username:
-        cache_key = _build_cache_key(username, gender, min_followers, max_followers, content_type, location, age_range)
-        if cache_key in match_cache:
-            cached = match_cache[cache_key]
-            return {"matches": cached, "total": len(cached)}
+    # username이 없어도 실제 매칭 생성 (anonymous 모드)
+    effective_username = username or "anonymous"
+    cache_key = _build_cache_key(effective_username, gender, min_followers, max_followers, content_type, location, age_range)
+    if cache_key in match_cache:
+        cached = match_cache[cache_key]
+        return {"matches": cached, "total": len(cached)}
 
-        matches = await generate_ai_matches(username, filters=filters)
-        if matches:
-            match_cache[cache_key] = matches
-            return {"matches": matches, "total": len(matches)}
+    matches = await generate_ai_matches(effective_username, filters=filters)
+    if matches:
+        match_cache[cache_key] = matches
+        return {"matches": matches, "total": len(matches)}
 
     return {"matches": SAMPLE_MATCHES, "total": len(SAMPLE_MATCHES)}
 
